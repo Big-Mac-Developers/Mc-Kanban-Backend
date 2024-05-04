@@ -1,6 +1,8 @@
+from typing import Optional
 from pydantic import BaseModel
 from enum import Enum
 from datetime import datetime
+from uuid import UUID
 
 class TaskStatus(Enum):
     TODO = "todo"
@@ -15,15 +17,16 @@ class Maintask_initial(BaseModel):
     board_id: int
 
 class Maintask(Maintask_initial):
-    id: int
+    id: UUID
     completion_date: datetime
 
-class Subtask(BaseModel):
-    id: int
+class Subtask_initial(BaseModel):
     title: str
     description: str
     status: TaskStatus
-    main_task_id: int
+    main_task_id: UUID
+class Subtask(Subtask_initial):
+    id: UUID
+    assignee: str
     assigned_date: datetime
-    due_date: datetime
     completed_date: datetime
