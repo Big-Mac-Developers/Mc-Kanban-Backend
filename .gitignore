@@ -1,3 +1,4 @@
 newvenv
 .idea
 __pycache__
+.env
