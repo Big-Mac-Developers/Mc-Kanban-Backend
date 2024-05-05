@@ -35,13 +35,7 @@ def ask_question(model, prompt, client):
 
 def summaries_task(model, client, respone):
     query = f"""estimate the diffculty of each task from 1 (low) to 10 (high)and convert the all tasks {respone} into this structure 
-    title: str
-    description: str
-    status: TaskStatus
-    board_id: int
-    diffculty: int
-    in json
-    only return json don't give me extra word
+
     """ 
 
     return ask_question(model, query, client)
@@ -52,7 +46,18 @@ def read_pdf(file_path):
     text = ''.join([page.extract_text() for page in reader.pages])
     return text
 
-
+def extract_tasks_from_text(text):
+    load_dotenv()
+    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    client = Anthropic(
+        # This is the default and can be omitted
+        api_key=os.environ.get("ANTHROPIC_API_KEY"),
+    )
+    model = "claude-3-opus-20240229"
+    prompt =  f"""Here is an assignment paper: <paper>{text}</paper> what is the key tasks for this assignment? """
+    respone = ask_question(model, prompt, client)
+    json = summaries_task(model, client, respone)
+    return json
 def main():
 
     load_dotenv()
