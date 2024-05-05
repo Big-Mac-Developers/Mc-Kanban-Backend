@@ -45,7 +45,7 @@ def summaries_task(model, client, respone):
     """ 
 
     return ask_question(model, query, client)
-     
+    
 def read_pdf(file_path):
     reader = PdfReader(file_path)
     number_of_pages = len(reader.pages)
